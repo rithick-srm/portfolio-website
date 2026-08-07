@@ -1,0 +1,525 @@
+{
+  "name": "AIML Telegram → LinkedIn Post Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const j = $json;\nlet out = { action: 'ignore', chatId: '', topic: '', query: '', callbackQueryId: '' };\nif (j.callback_query) {\n  out.chatId = j.callback_query.message && j.callback_query.message.chat ? j.callback_query.message.chat.id : '';\n  out.callbackQueryId = j.callback_query.id || '';\n  const data = j.callback_query.data || '';\n  if (data === 'CUSTOM') { out.action = 'prompt_custom'; }\n  else {\n  out.action = 'generate';\n  out.topic = data;\n}\n} else if (j.message && j.message.text) {\n  out.chatId = j.message.chat ? j.message.chat.id : '';\n  const text = j.message.text.trim();\n  if (text.toLowerCase().indexOf('/post ') === 0) { out.action = 'generate'; out.topic = text.slice(6).trim(); }\n  else if (text.toLowerCase() === '/start') { out.action = 'search'; out.query = 'latest AI ML news trends'; }\n  else { out.action = 'search'; out.query = text; }\n}\nreturn { json: out };"
+      },
+      "id": "39a9a6aa-b85f-4d23-bf87-d01f253f8148",
+      "name": "Parse Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -448,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a9f93a07-6a8f-47d9-97bb-f3f6da544d41"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "search"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "generate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "04a0e3c3-aeb1-46cb-bf2f-fdc8b0b593eb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generate"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "prompt_custom",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cb4cc923-a4ee-457e-bfc9-7643b6e79b45"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "prompt_custom"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "be863eb3-24c2-4e44-97c6-409470beef36",
+      "name": "Route Update",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.query }} artificial intelligence machine learning news trends"
+            },
+            {
+              "name": "num",
+              "value": "8"
+            },
+            {
+              "name": "api_key",
+              "value": "4643c46942ac384e96e9e8c7c1da77f523e44b94455c06c7377e7f3d32b18ec0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "404fb41b-f818-46dc-8102-88b710308f76",
+      "name": "SerpAPI Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        64,
+        0
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "DxE1zlDfKLxRneVW",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemma-4-26b-a4b-it",
+          "mode": "list",
+          "cachedResultName": "models/gemma-4-26b-a4b-it"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Generate exactly 3 AI/ML topics.\n\nOutput ONLY in this format:\n\nAgentic AI\nMultimodal AI\nRAG\n\nDo not add explanations.\nDo not add rules.\nDo not add markdown."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 1.2,
+          "topP": 1,
+          "topK": 40
+        }
+      },
+      "id": "5938ea98-40a7-4b68-bbb2-f139c34be635",
+      "name": "Gemini Suggest Topics",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        0
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "atxzzfUBByRhkDOG",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let text = $json.content.parts[0].text;\n\n// Keep only short lines\nconst topics = text\n  .split(\"\\n\")\n  .map(t => t.trim())\n  .filter(\n    t =>\n      t.length > 0 &&\n      t.length < 50 &&\n      !t.includes(\":\") &&\n      !t.startsWith(\"*\")\n  )\n  .slice(0, 3);\n\nreturn [\n  {\n    json: {\n      topics\n    }\n  }\n];"
+      },
+      "id": "66aab5cb-aa7b-4a30-8920-d895feced960",
+      "name": "Build Topics Keyboard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse Update').item.json.chatId }}",
+        "text": "=Please select one of the AI/ML topics below:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "=={{ $json.topics[0] }}",
+                    "additionalFields": {
+                      "callback_data": "=={{ $json.topics[0] }}"
+                    }
+                  },
+                  {
+                    "text": "=={{ $json.topics[1] }}",
+                    "additionalFields": {
+                      "callback_data": "=={{ $json.topics[1] }}"
+                    }
+                  },
+                  {
+                    "text": "=={{ $json.topics[2] }}",
+                    "additionalFields": {
+                      "callback_data": "=={{ $json.topics[2] }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "421dcf47-1201-425a-a6d5-cea596ca0c2f",
+      "name": "Send Topic Choices",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        928,
+        0
+      ],
+      "webhookId": "9e100f8d-0e63-49c7-b69e-ac15f867ac98",
+      "credentials": {
+        "telegramApi": {
+          "id": "QfddLejyBYnSS9F2",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemma-4-26b-a4b-it",
+          "mode": "list",
+          "cachedResultName": "models/gemma-4-26b-a4b-it"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional LinkedIn content writer.\n\nWrite a 100-word LinkedIn post about:\n\n{{ $('Parse Update').item.json.topic }}\n\nMake the post engaging and professional."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "3db15e0f-bf9b-42f0-a873-4f8b81b97efd",
+      "name": "Gemini Write Post",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        192
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "atxzzfUBByRhkDOG",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const raw = $json;\nfunction extractText(o){\n  if(!o) return '';\n  if(typeof o === 'string') return o;\n  if(o.content && o.content.parts && o.content.parts[0] && o.content.parts[0].text) return o.content.parts[0].text;\n  if(typeof o.content === 'string') return o.content;\n  if(o.text) return o.text;\n  if(o.message && o.message.content) return o.message.content;\n  return '';\n}\nconst postText = extractText(raw).trim();\nconst chatId = $('Parse Update').item.json.chatId;\nreturn { json: { postText: postText, chatId: chatId } };"
+      },
+      "id": "c4631866-c350-4a62-85ea-d93ecbb0d5b6",
+      "name": "Extract Post Text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "person": "wb6yMgXKOJ",
+        "text": "={{ $json.postText }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "id": "325bde53-7a65-4177-a66b-4d61e0021c69",
+      "name": "Publish LinkedIn Post",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        704,
+        192
+      ],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "Wcpjj3sKMsYS2M8g",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse Update').item.json.chatId }}",
+        "text": "=✅ Your LinkedIn post on \"{{ $('Parse Update').item.json.topic }}\" has been published!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "5bf0b135-4a25-4a5a-a75d-d0761e9c9b17",
+      "name": "Confirm Published",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        928,
+        192
+      ],
+      "webhookId": "b8d85c40-d572-40bd-80bb-783a56cea963",
+      "credentials": {
+        "telegramApi": {
+          "id": "QfddLejyBYnSS9F2",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "Send your custom topic like this:\n\n/post The future of multimodal LLMs",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "8f478345-64e6-4a6a-9e92-03653bd94747",
+      "name": "Prompt Custom Topic",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        384
+      ],
+      "webhookId": "e8e725a6-c6f3-4c84-baf7-2c0fe2d20f49",
+      "credentials": {
+        "telegramApi": {
+          "id": "QfddLejyBYnSS9F2",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "id": "cf0d7198-70c4-413c-80d7-d3cf1dee5581",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -672,
+        192
+      ],
+      "webhookId": "ef59739a-2120-40f9-9a1b-6148007f3693",
+      "credentials": {
+        "telegramApi": {
+          "id": "QfddLejyBYnSS9F2",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Parse Update": {
+      "main": [
+        [
+          {
+            "node": "Route Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Update": {
+      "main": [
+        [
+          {
+            "node": "SerpAPI Search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gemini Write Post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prompt Custom Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI Search": {
+      "main": [
+        [
+          {
+            "node": "Gemini Suggest Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Suggest Topics": {
+      "main": [
+        [
+          {
+            "node": "Build Topics Keyboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Topics Keyboard": {
+      "main": [
+        [
+          {
+            "node": "Send Topic Choices",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Write Post": {
+      "main": [
+        [
+          {
+            "node": "Extract Post Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Post Text": {
+      "main": [
+        [
+          {
+            "node": "Publish LinkedIn Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish LinkedIn Post": {
+      "main": [
+        [
+          {
+            "node": "Confirm Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "27bc409f-56f2-4cd2-9ad6-a6df7671707f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1d9d5272e9e1b025e767b0f7c966c944add66f3e8648a90445459d7e7c99d438"
+  },
+  "nodeGroups": [],
+  "id": "YXLzBYGb4bXdtohu",
+  "tags": []
+}
