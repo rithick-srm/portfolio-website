@@ -8,57 +8,1450 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --white: #ffffff; --bg: #f9f8f6; --text: #1a1a1a;
-      --muted: #666; --accent: #1a56db; --border: #e2e2e2;
-      --tag-bg: #eef2fc; --tag-text: #1a56db;
+    --bg: #020202;
+--text: #f5f5f5;
+--muted: #a5a5a5;
+--accent: #e6b85c;
+--border: rgba(255,255,255,0.12);
+--tag-bg: #0b0b0b;
+--tag-text: #e6b85c;
+}
+    body {
+    font-family: 'Inter', sans-serif;
+    background:
+    radial-gradient(
+        circle at 50% 20%,
+        rgba(230, 184, 92, 0.18),
+        transparent 30%
+    ),
+    radial-gradient(
+        circle at 50% 100%,
+        rgba(230, 140, 50, 0.08),
+        transparent 40%
+    ),
+    #020202;
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7; }
-    nav { position: sticky; top: 0; background: rgba(249,248,246,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; height: 56px; z-index: 100; }
-    .nav-name { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.15s; }
-    .nav-links a:hover { color: var(--text); }
-    .section { max-width: 720px; margin: 0 auto; padding: 4rem 2rem; border-bottom: 1px solid var(--border); }
-    .section:last-of-type { border-bottom: none; }
-    #hero { padding-top: 5rem; padding-bottom: 5rem; }
-    .hero-label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
-    .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 6vw, 52px); line-height: 1.15; color: var(--text); margin-bottom: 1.25rem; }
-    .hero-tagline { font-size: 17px; color: var(--muted); max-width: 480px; margin-bottom: 2rem; line-height: 1.7; }
-    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.15s; cursor: pointer; }
-    .btn-primary { background: var(--text); color: var(--white); border: 1.5px solid var(--text); }
-    .btn-primary:hover { background: #333; }
-    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
-    .btn-outline:hover { border-color: var(--text); }
-    .section-heading { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); margin-bottom: 2rem; }
+    
+    nav {
+    position: sticky;
+    top: 0;
+    height: 72px;
+    padding: 0 4%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 5, 5, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+}
+
+.nav-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.25s ease;
+    padding: 8px 0;
+}
+
+.nav-links a:hover {
+    color: var(--text);
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.25s ease;
+}
+
+.nav-links a:hover::after {
+    transform: translateX(-50%) scale(1);
+}
+    .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.section:last-of-type {
+    border-bottom: none;
+}
+/* ================= HERO ================= */
+
+#hero {
+    position: relative;
+    min-height: 820px;
+    max-width: 100%;
+    padding: 9rem 7% 7rem;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            rgba(230, 184, 92, 0.22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 90%,
+            rgba(180, 100, 30, 0.12),
+            transparent 45%
+        ),
+        #020202;
+}
+#hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 65px 65px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        transparent 85%
+    );
+
+    pointer-events: none;
+}
+#hero::after {
+    content: "";
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(
+        ellipse,
+        rgba(230,184,92,0.18),
+        rgba(230,150,50,0.08) 35%,
+        transparent 70%
+    );
+
+    filter: blur(30px);
+
+    pointer-events: none;
+
+    animation: spaceGlow 6s ease-in-out infinite;
+}
+#hero {
+    isolation: isolate;
+}
+
+#hero .orbit {
+    position: absolute;
+    width: 900px;
+    height: 300px;
+    border: 1px solid rgba(230,184,92,0.35);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    box-shadow:
+        0 0 25px rgba(230,184,92,0.12),
+        inset 0 0 25px rgba(230,184,92,0.08);
+    pointer-events: none;
+    z-index: 1;
+}
+
+#hero .orbit::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: 50%;
+    left: 0;
+    box-shadow: 0 0 20px var(--accent);
+    animation: orbitMove 7s linear infinite;
+}
+
+@keyframes orbitMove {
+    from {
+        transform: rotate(0deg) translateX(450px) rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg) translateX(450px) rotate(-360deg);
+    }
+}
+
+@keyframes spaceGlow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.12);
+    }
+    
+}
+/* ================= MOVING STARS ================= */
+
+#hero .stars {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#hero .stars::before,
+#hero .stars::after {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 90px 90px, 140px 140px;
+    background-position: 0 0, 40px 70px;
+    animation: starsMove 18s linear infinite;
+    opacity: 0.45;
+}
+
+#hero .stars::after {
+    background-size: 130px 130px, 200px 200px;
+    background-position: 20px 50px, 80px 20px;
+    animation-duration: 28s;
+    opacity: 0.25;
+}
+
+@keyframes starsMove {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(120px, 80px, 0);
+    }
+}
+#hero .stars {
+    z-index: 1;
+}
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+.hero-name {
+    position: relative;
+    z-index: 2;
+
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(75px, 10vw, 155px);
+    line-height: 0.85;
+    color: var(--text);
+    letter-spacing: -0.05em;
+    margin-bottom: 2.5rem;
+    
+   
+    
+    text-shadow:
+        0 0 30px rgba(255,255,255,0.08),
+        0 0 80px rgba(230,184,92,0.12);
+}
+.hero-tagline {
+    position: relative;
+    z-index: 2;
+
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2rem;
+    line-height: 1.65;
+}
+
+.hero-links {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+}
+
+.hero-version {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.hero-version span {
+    color: var(--accent);
+    font-size: 18px;
+}
+
+.hero-version strong {
+    color: var(--text);
+    font-weight: 600;
+}
+    .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+.btn-primary {
+    background: var(--accent);
+    color: #050505 !important;
+    border: 1px solid var(--accent);
+    padding: 16px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 20px rgba(230,184,92,0.3),
+        0 10px 35px rgba(230,184,92,0.15);
+}    
+    .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+    .btn-outline { background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent);
+    color: var(--accent); }
+    .section-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #f5f5f5;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
     .about-text { font-size: 15.5px; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
     .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 560px) { .projects-grid { grid-template-columns: 1fr; } }
-    .project-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.15s, transform 0.15s; }
-    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .project-card {
+    background: rgba(12, 12, 12, 0.75);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.35s ease;
+    backdrop-filter: blur(10px);
+}
+
+.project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 45px rgba(230,184,92,0.12);
+}
     .project-title { font-weight: 600; font-size: 15px; margin-bottom: 0.4rem; color: var(--text); }
     .project-desc { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
     .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-    .tag { font-size: 11px; font-weight: 600; background: var(--tag-bg); color: var(--tag-text); padding: 3px 9px; border-radius: 4px; }
-    .project-link { font-size: 13px; color: var(--accent); text-decoration: none; font-weight: 500; }
+    .tag { font-size: 11px; font-weight: 600; background: #151515;
+    color: #e5e5e5;
+    border: 1px solid #0d0d0d; }
+    .project-link {
+    font-size: 13px;
+    color: var(--accent) ; text-decoration: none;
+    font-weight: 500}
     .project-link:hover { text-decoration: underline; }
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem; }
-    .skill-pill { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; font-size: 13.5px; font-weight: 500; color: var(--text); text-align: center; }
-    .exp-item { margin-bottom: 2rem; }
-    .exp-item:last-child { margin-bottom: 0; }
-    .exp-role { font-weight: 600; font-size: 15px; color: var(--text); }
-    .exp-org { font-size: 14px; color: var(--accent); margin-bottom: 0.2rem; }
-    .exp-date { font-size: 13px; color: var(--muted); margin-bottom: 0.5rem; }
-    .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
-    .exp-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-    .contact-intro { font-size: 15.5px; color: var(--muted); margin-bottom: 1.5rem; max-width: 420px; }
-    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .contact-link { font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; border-bottom: 1.5px solid var(--border); padding-bottom: 1px; transition: border-color 0.15s; }
-    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .skill-pill {
+    background: rgba(12, 12, 12, 0.75);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.skill-pill:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 10px 35px rgba(230,184,92,0.15);
+}
+    
+    .contact-link {
+    font-size: 15px;
+    font-weight: 600;
+    color: #f5f5f5;
+    text-decoration: none;
+    padding: 10px 16px;
+    border: 1px solid #ede5e5e8;
+    border-radius: 8px;
+    background: #111111;
+    transition: all 0.25s ease;
+}
+    .contact-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(230,184,92,0.15);
+}
     footer { text-align: center; padding: 2rem; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
+  html {
+    scroll-behavior: smooth;
+}
+/* =====================================================
+   CINEMATIC SPACE EFFECT
+   ===================================================== */
+
+#hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Background layer */
+.cinematic-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Moving ambient light */
+.cinematic-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(230, 184, 92, 0.18) 0%,
+            rgba(230, 184, 92, 0.08) 25%,
+            transparent 65%
+        );
+
+    filter: blur(25px);
+
+    animation: cinematicGlow 8s ease-in-out infinite alternate;
+}
+
+/* Planet / horizon glow */
+.planet-horizon {
+    position: absolute;
+
+    width: 120%;
+    height: 280px;
+
+    left: -10%;
+    bottom: -180px;
+
+    border-radius: 50% 50% 0 0;
+
+    border-top: 2px solid rgba(230, 184, 92, 0.65);
+
+    box-shadow:
+        0 -10px 35px rgba(230, 184, 92, 0.22),
+        0 -2px 80px rgba(230, 184, 92, 0.12);
+
+    background:
+        radial-gradient(
+            ellipse at center top,
+            rgba(230, 184, 92, 0.12),
+            transparent 55%
+        );
+
+    animation: horizonPulse 6s ease-in-out infinite;
+}
+
+/* Shooting star */
+.shooting-star {
+    position: absolute;
+
+    width: 140px;
+    height: 2px;
+
+    top: 25%;
+    left: -180px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.9),
+        transparent
+    );
+
+    transform: rotate(-25deg);
+
+    opacity: 0;
+
+    animation: shootingStar 9s linear infinite;
+}
+
+/* Cinematic dark edges */
+#hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 45%,
+            rgba(0,0,0,0.35) 100%
+        );
+
+    z-index: 1;
+}
+
+/* Keep hero content above effects */
+#hero > *:not(.cinematic-bg) {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+@keyframes cinematicGlow {
+
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.12);
+        opacity: 0.55;
+    }
+}
+
+
+@keyframes horizonPulse {
+
+    0% {
+        opacity: 0.45;
+        transform: scaleX(0.96);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scaleX(1);
+    }
+
+    100% {
+        opacity: 0.45;
+        transform: scaleX(0.96);
+    }
+}
+
+
+@keyframes shootingStar {
+
+    0% {
+        left: -180px;
+        top: 20%;
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    15% {
+        left: 110%;
+        top: 45%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 110%;
+        opacity: 0;
+    }
+}
+
+
+/* =====================================================
+   BUTTON CINEMATIC HOVER
+   ===================================================== */
+
+.hero-links .btn {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        background 0.35s ease;
+}
+
+.hero-links .btn:hover {
+    transform: translateY(-5px) scale(1.03);
+
+    box-shadow:
+        0 10px 35px rgba(230, 184, 92, 0.18);
+}
+
+
+/* =====================================================
+   HERO TEXT ENTRY
+   ===================================================== */
+
+#hero .hero-tagline {
+    animation: heroFadeUp 1.2s ease both;
+    animation-delay: 0.25s;
+}
+
+#hero .hero-links {
+    animation: heroFadeUp 1.2s ease both;
+    animation-delay: 0.55s;
+}
+
+@keyframes heroFadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+
+}
+/* Hide old cinematic overlay */
+#hero::after {
+    display: none;
+}
+  /* ================= CLEAN ALIGNMENT ================= */
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+}
+
+/* NAVIGATION */
+nav {
+    width: 100%;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+/* COMMON SECTIONS */
+.section {
+    width: min(1100px, calc(100% - 2rem));
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+/* HERO */
+#hero {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-top: 5rem;
+}
+
+.hero-label,
+.hero-name,
+.hero-tagline,
+.hero-links {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.hero-tagline {
+    width: min(520px, 100%);
+}
+
+/* HERO BUTTONS */
+.hero-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+}
+
+/* PROJECTS */
+.projects-grid {
+    width: 100%;
+    align-items: stretch;
+}
+
+.project-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    padding-top: 4px;
+}
+
+/* SKILLS */
+.skills-grid {
+    width: 100%;
+    align-items: stretch;
+}
+
+.skill-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    text-align: center;
+}
+
+/* CONTACT */
+.contact-intro {
+    color: var(--muted);
+    font-size: 15.5px;
+    line-height: 1.8;
+    max-width: 650px;
+    margin-bottom: 1.5rem;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    text-align: center;
+}
+
+/* TABLET */
+@media (max-width: 760px) {
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    #hero {
+        min-height: 720px;
+        padding-top: 7rem;
+        padding-bottom: 6rem;
+    }
+
+    .hero-name {
+        font-size: clamp(58px, 15vw, 100px);
+    }
+
+    .hero-links {
+        gap: 12px;
+    }
+
+    .hero-version {
+        margin-left: 0;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 560px) {
+
+    nav {
+        height: auto;
+        min-height: 72px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .nav-name {
+        font-size: 20px;
+    }
+
+    .nav-links {
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+    }
+
+    .section {
+        width: calc(100% - 1rem);
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    #hero {
+        width: 100%;
+        min-height: 680px;
+        padding: 6rem 1.25rem 5rem;
+    }
+
+    .hero-label {
+        font-size: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .hero-name {
+        font-size: clamp(52px, 17vw, 82px);
+        line-height: 0.9;
+        margin-bottom: 1.75rem;
+    }
+
+    .hero-tagline {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .hero-links {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .hero-links .btn {
+        width: 100%;
+    }
+
+    .hero-version {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contact-links {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .contact-link {
+        width: 100%;
+    }
+}
+ /* =========================================
+   FINAL HERO POSITIONING
+   ========================================= */
+
+/* Hero itself */
+#hero {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    min-height: 820px;
+
+    padding: 7rem 7% 6rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* =========================================
+   ANIMATION LAYERS
+   ========================================= */
+
+#hero .cinematic-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#hero .stars {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#hero .orbit {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* =========================================
+   HERO CONTENT ABOVE ANIMATION
+   ========================================= */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* =========================================
+   MOVE THE WHOLE CONTENT GROUP UP
+   ========================================= */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    transform: translateY(-55px);
+}
+
+
+/* =========================================
+   TEXT SPACING
+   ========================================= */
+
+#hero .hero-label {
+    margin-bottom: 1.2rem;
+}
+
+#hero .hero-name {
+    margin-bottom: 2rem;
+}
+
+#hero .hero-tagline {
+    margin-bottom: 1.5rem;
+}
+
+
+/* =========================================
+   KEEP CINEMATIC OVERLAY BEHIND TEXT
+   ========================================= */
+
+#hero::after {
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 760px) {
+
+    #hero {
+        min-height: 720px;
+        padding: 6rem 6% 5rem;
+    }
+
+    #hero .hero-label,
+    #hero .hero-name,
+    #hero .hero-tagline,
+    #hero .hero-links {
+        transform: translateY(-30px);
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    #hero {
+        min-height: 680px;
+        padding: 5rem 1.25rem 4rem;
+    }
+
+    #hero .hero-label,
+    #hero .hero-name,
+    #hero .hero-tagline,
+    #hero .hero-links {
+        transform: translateY(-20px);
+    }
+}
+
+/* =========================================
+   SPACE VIDEO HERO BACKGROUND
+   ========================================= */
+
+#hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    min-height: 820px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 7rem 7%;
+}
+
+
+/* SPACE VIDEO */
+
+#hero .space-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    z-index: 0 !important;
+
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    pointer-events: none;
+}
+
+/* DARK OVERLAY */
+
+#hero::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.20),
+            rgba(0,0,0,0.45)
+        );
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* HERO CONTENT ABOVE VIDEO */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* MOVE THE WHOLE CONTENT GROUP UP */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    transform: translateY(-60px);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+    #hero {
+        min-height: 720px;
+        padding: 6rem 6%;
+    }
+
+    #hero .hero-label,
+    #hero .hero-name,
+    #hero .hero-tagline,
+    #hero .hero-links {
+        transform: translateY(-30px);
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    #hero {
+        min-height: 680px;
+        padding: 5rem 1.25rem;
+    }
+
+    #hero .hero-label,
+    #hero .hero-name,
+    #hero .hero-tagline,
+    #hero .hero-links {
+        transform: translateY(-20px);
+    }
+
+    #hero .space-video {
+        object-position: center;
+    }
+}
+  /* =========================================
+   SPACE VIDEO BACKGROUND
+   ========================================= */
+
+#hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 820px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 7rem 7%;
+}
+
+
+/* VIDEO */
+
+#hero .space-video {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 0;
+    pointer-events: none;
+}
+
+
+/* DARK LAYER OVER VIDEO */
+
+#hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* YOUR CONTENT ABOVE VIDEO */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* MOVE EVERYTHING UP TOGETHER */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    transform: translateY(-60px);
+}
+
+
+/* REMOVE OLD CINEMATIC OVERLAY */
+
+#hero::after {
+    display: none;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+    #hero {
+        min-height: 720px;
+        padding: 6rem 6%;
+    }
+
+    #hero .hero-label,
+    #hero .hero-name,
+    #hero .hero-tagline,
+    #hero .hero-links {
+        transform: translateY(-30px);
+    }
+}
+  
+  /* FINAL HERO VIDEO FIX */
+
+#hero {
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+}
+
+#hero .space-video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    z-index: 0 !important;
+}
+
+/* Keep all hero content above video */
+
+#hero .hero-label,
+#hero .hero-name,
+#hero .hero-tagline,
+#hero .hero-links {
+    position: relative !important;
+    z-index: 10 !important;
+}
+body {
+    position: relative;
+    background: #000;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: -1;
+    pointer-events: none;
+}
+
+body > nav,
+body > .section,
+body > footer {
+    position: relative;
+    z-index: 2;
+}
+/* =========================================
+   GLOBAL SPACE VIDEO BACKGROUND
+   ========================================= */
+
+body {
+    background: #000;
+}
+
+/* Keep the video fixed behind the whole website */
+.space-video {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    z-index: 0 !important;
+
+    pointer-events: none;
+}
+
+/* Dark overlay over the video */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Keep website content above the video */
+body > nav,
+body > .section,
+body > footer {
+    position: relative;
+    z-index: 2;
+}
+
+/* Make sections transparent so the video can be seen */
+body > .section {
+    background: transparent !important;
+}
+
+/* Keep navigation readable */
+body > nav {
+    background: rgba(5, 5, 5, 0.82);
+}
+
+/* Keep footer transparent */
+body > footer {
+    background: transparent;
+}
+/* =========================================
+   FULL PAGE SPACE VIDEO
+   ========================================= */
+
+.space-video {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+
+    z-index: -2 !important;
+    pointer-events: none;
+}
+
+/* Dark overlay */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.10);
+
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Make every section transparent */
+#hero,
+#about,
+#projects,
+#skills,
+#contact {
+    background: transparent !important;
+}
+
+/* Keep content above background */
+nav,
+.section,
+footer {
+    position: relative;
+    z-index: 2;
+}
+  /* =========================================
+   LEFT ALIGN ENTIRE PORTFOLIO
+   ========================================= */
+
+.section {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+#hero {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+ /* =========================================
+   INTERACTIVE STARFIELD
+   ========================================= */
+
+#starCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
   </style>
+
 </head>
 <body>
+    <canvas id="starCanvas"></canvas>
 
 <nav>
   <a href="#hero" class="nav-name">V.RITHICK</a><!-- EDIT: your name -->
@@ -70,16 +1463,39 @@
   </ul>
 </nav>
 
+<video class="space-video" autoplay muted loop playsinline>
+    <source src="space-video.mp4" type="video/mp4">
+</video>
+
 <div class="section" id="hero">
-  <p class="hero-label">Portfolio</p>
-  <h1 class="hero-name">Hi, I'm<br>V.RITHICK</h1><!-- EDIT: your full name -->
-  <p class="hero-tagline">A second-year B.Tech student studying Artificial Intelligence and Machine Learning. I build websites and AI applications.
-    </p><!-- EDIT: 1-2 lines about you -->
-  <div class="hero-links">
-    <a href="#projects" class="btn btn-primary">See My Projects</a>
-    <a href="mailto:v.rithick@gmail.com" class="btn btn-outline">Get in Touch</a><!-- EDIT: your email -->
-  </div>
+
+    <p class="hero-label">HELLO, I'M</p>
+
+    <h1 class="hero-name">
+        V . RITHICK 
+    </h1>
+<p class="hero-tagline">
+        A second-year B.Tech student studying Artificial
+        Intelligence and Machine Learning. I build websites
+        and AI applications.
+    </p>
+
+            See My Projects ↗
+        </a>
+
+        <a href="mailto:rithick6792@gmail.com" class="btn btn-outline">
+            Get in Touch ↗
+        </a>
+
+<div class="hero-version">
+    <span>●</span>
+    <span>PORTFOLIO</span>
+    <strong>2026</strong>
 </div>
+</div> <!-- CLOSE hero-links -->
+
+</div> <!-- CLOSE hero -->
+
 
 <div class="section" id="about">
   <h2 class="section-heading">About Me</h2>
@@ -91,89 +1507,194 @@
   <h2 class="section-heading">Projects</h2>
   <div class="projects-grid">
 
-    <div class="project-card">
-      <p class="project-title">Song Guessing Game</p><!-- EDIT: your project name -->
-      <p class="project-desc">A daily Heardle-style game where players guess a song from a short audio clip. Built in one week.</p><!-- EDIT -->
+    
+
+<div class="project-card">
+    <p class="project-title">n8n Automation Workflow</p>
+    <p class="project-desc">Built an n8n workflow to automate tasks and connect different services. This project helped me learn workflow automation and API integration.</p>
+    <div class="project-tags">
+        <span class="tag">n8n</span>
+        <span class="tag">Automation</span>
+        <span class="tag">APIs</span>
+    </div>
+    <a href="https://github.com/rithick-srm/portfolio-website/blob/main/AIML%20Telegram%20%E2%86%92%20LinkedIn%20Post%20Assistant.json" class="project-link" target="_blank">View Project</a>
+</div>
+    
+<div class="project-card">
+      <p class="project-title">Excel Dashboarde</p><!-- EDIT -->
+      <p class="project-desc">Built an interactive Excel dashboard to analyze data using charts, PivotTables, and filters.</p><!-- EDIT -->
       <div class="project-tags">
-        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+        <span class="tag">Excel</span><span class="tag">Data Analysis</span>
       </div>
-      <a href="https://your-game.glitch.me" class="project-link" target="_blank">Live Demo →</a><!-- EDIT: your Glitch link -->
+      <a href="https://github.com/rithick-srm/portfolio-website/blob/main/Sales%20Dashboard.xlsx" class="project-link" target="_blank">View Project →</a>
     </div>
 
-    <div class="project-card">
-      <p class="project-title">Project Two Title</p><!-- EDIT -->
-      <p class="project-desc">Short description of what this project does and why you built it. 2-3 sentences max.</p><!-- EDIT -->
-      <div class="project-tags">
-        <span class="tag">Tag 1</span><span class="tag">Tag 2</span><!-- EDIT: tech you used -->
-      </div>
-      <a href="#" class="project-link">View Project →</a><!-- EDIT: link -->
-    </div>
-
-    <div class="project-card">
-      <p class="project-title">Project Three Title</p><!-- EDIT -->
-      <p class="project-desc">Short description of what this project does and why you built it.</p><!-- EDIT -->
-      <div class="project-tags">
-        <span class="tag">Tag 1</span><span class="tag">Tag 2</span>
-      </div>
-      <a href="#" class="project-link">View Project →</a>
-    </div>
-
-    <div class="project-card">
-      <p class="project-title">Project Four Title</p><!-- EDIT -->
-      <p class="project-desc">Short description of what this project does and why you built it.</p><!-- EDIT -->
-      <div class="project-tags">
-        <span class="tag">Tag 1</span><span class="tag">Tag 2</span>
-      </div>
-      <a href="#" class="project-link">View Project →</a>
-    </div>
-
-  </div>
+    
+  
 </div>
 
 <div class="section" id="skills">
   <h2 class="section-heading">Skills</h2>
   <div class="skills-grid">
-    <div class="skill-pill">HTML</div>
-    <div class="skill-pill">CSS</div>
-    <div class="skill-pill">JavaScript</div>
+    <div class="skill-pill">SQL</div>
+    <div class="skill-pill">Excel</div>
     <div class="skill-pill">Python</div>
-    <div class="skill-pill">Git</div>
     <div class="skill-pill">VS Code</div>
-    <div class="skill-pill">Figma</div>
+    <div class="skill-pill">n8n</div>
     <div class="skill-pill">Canva</div>
     <!-- EDIT: Delete what you don't know. Add what you do. Only list real skills. -->
   </div>
 </div>
 
-<div class="section" id="experience">
-  <h2 class="section-heading">Experience</h2>
-  <div class="exp-item">
-    <p class="exp-role">Role Title</p><!-- EDIT -->
-    <p class="exp-org">Organisation / Club Name</p><!-- EDIT -->
-    <p class="exp-date">Month Year — Month Year</p><!-- EDIT -->
-    <p class="exp-desc">1-2 sentences about what you did, what you built, what impact you had. Club roles count.</p><!-- EDIT -->
-  </div>
-  <hr class="exp-divider"/>
-  <div class="exp-item">
-    <p class="exp-role">Role Title</p><!-- EDIT -->
-    <p class="exp-org">Organisation / Club Name</p><!-- EDIT -->
-    <p class="exp-date">Month Year — Month Year</p><!-- EDIT -->
-    <p class="exp-desc">1-2 sentences about what you did and what you learned.</p><!-- EDIT -->
-  </div>
-  <!-- No experience? Delete this entire section. That is fine. -->
-</div>
 
 <div class="section" id="contact">
   <h2 class="section-heading">Get in Touch</h2>
-  <p class="contact-intro">I'm open to internships, freelance work, and collaborations. I reply to every message.</p><!-- EDIT -->
+ <p class="contact-intro">
+    I'm open to internships, freelance opportunities, and collaborations.
+    Feel free to reach out — I'd be happy to connect.
+
+</p><!-- EDIT -->
   <div class="contact-links">
     <a href="mailto:rithick6792@gmail.com" class="contact-link">Email</a><!-- EDIT -->
-    <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">LinkedIn</a><!-- EDIT -->
-    <a href="https://github.com/yourusername" class="contact-link" target="_blank">GitHub</a><!-- EDIT -->
+    <a href="https://www.linkedin.com/in/rithick-v-8431b137b" class="contact-link" target="_blank">LinkedIn</a><!-- EDIT -->
+    <a href="https://github.com/rithick-srm" class="contact-link" target="_blank">GitHub</a><!-- EDIT -->
   </div>
 </div>
 
-<footer>Built by V.RITHICK &middot; 2025</footer><!-- EDIT: your name -->
+<footer>Built by V.RITHICK &middot; 2026</footer><!-- EDIT: your name -->
+<script>
+const canvas = document.getElementById("starCanvas");
+const ctx = canvas.getContext("2d");
 
+let stars = [];
+let mouse = {
+    x: -1000,
+    y: -1000
+};
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+
+/* Create stars */
+function createStars() {
+    stars = [];
+
+    const numberOfStars = Math.floor(
+        (window.innerWidth * window.innerHeight) / 7000
+    );
+
+    for (let i = 0; i < numberOfStars; i++) {
+
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+
+            size: Math.random() * 1.8 + 0.4,
+
+            speedX: (Math.random() - 0.5) * 0.25,
+            speedY: (Math.random() - 0.5) * 0.25,
+
+            brightness: Math.random() * 0.7 + 0.3,
+
+            originalX: 0,
+            originalY: 0
+        });
+    }
+}
+
+createStars();
+
+
+/* Mouse movement */
+window.addEventListener("mousemove", function(event) {
+
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+
+});
+
+
+/* When mouse leaves the page */
+document.addEventListener("mouseleave", function() {
+
+    mouse.x = -1000;
+    mouse.y = -1000;
+
+});
+
+
+/* Animate stars */
+function animateStars() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    stars.forEach(star => {
+
+        /* Normal movement */
+        star.x += star.speedX;
+        star.y += star.speedY;
+
+
+        /* Wrap stars around screen */
+        if (star.x < 0) star.x = canvas.width;
+        if (star.x > canvas.width) star.x = 0;
+
+        if (star.y < 0) star.y = canvas.height;
+        if (star.y > canvas.height) star.y = 0;
+
+
+        /* Distance from mouse */
+        const dx = star.x - mouse.x;
+        const dy = star.y - mouse.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        const interactionRadius = 120;
+
+
+        /* Mouse interaction */
+        if (distance < interactionRadius) {
+
+            const force =
+                (interactionRadius - distance) /
+                interactionRadius;
+
+            const angle = Math.atan2(dy, dx);
+
+            star.x += Math.cos(angle) * force * 2.5;
+            star.y += Math.sin(angle) * force * 2.5;
+        }
+
+
+        /* Draw star */
+        ctx.beginPath();
+
+        ctx.arc(
+            star.x,
+            star.y,
+            star.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(255,255,255,${star.brightness})`;
+
+        ctx.fill();
+
+    });
+
+
+    requestAnimationFrame(animateStars);
+}
+
+animateStars();
+</script>
 </body>
 </html>
